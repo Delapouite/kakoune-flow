@@ -16,6 +16,7 @@ It provides the following commands:
 ## See also
 
 - [vim-flow](https://github.com/flowtype/vim-flow)
+- [eslint-formatter-kakoune](https://github.com/Delapouite/eslint-formatter-kakoune)
 
 ## Licence
 
