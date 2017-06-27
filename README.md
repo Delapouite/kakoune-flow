@@ -15,7 +15,7 @@ It provides the following commands:
 
 ## See also
 
-- [flow.vim](https://github.com/flowtype/vim-flow)
+- [vim-flow](https://github.com/flowtype/vim-flow)
 
 ## Licence
 
