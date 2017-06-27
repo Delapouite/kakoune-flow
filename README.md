@@ -12,6 +12,7 @@ It provides the following commands:
 
 - `flow-get-type`: display the type of the name under cursor in info (using `flow type-at-pos`)
 - `flow-jump-to-definition`: jump to definition of the name under cursor (using `flow get-def`)
+- `flow-coverage`: display the current file coverage in info (using `flow coverage`)
 
 ## See also
 

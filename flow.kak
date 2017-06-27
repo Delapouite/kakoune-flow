@@ -7,3 +7,8 @@ def flow-jump-to-definition -docstring 'jump to definition of the name under cur
   location=$(flow get-def $kak_buffile $kak_cursor_line $kak_cursor_column | cut -d , -f 1 | tr ':' ' ')
   echo "edit $location"
 }}
+
+def flow-coverage -docstring 'display the current file coverage in info' %{ %sh{
+  coverage=$(flow coverage $kak_buffile | head -n 1)
+  echo "info -title 'flow-coverage' '$coverage'"
+}}
