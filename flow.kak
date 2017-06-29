@@ -35,3 +35,12 @@ def flow-coverage -docstring 'display the current file coverage in info and high
 }
 
 def flow-coverage-disable -docstring 'remove coverage highlighter' %{ rmhl hlranges_flow_coverage }
+
+def flow-select-references -docstring 'select references of the name under cursor' %{ %sh{
+  coords=$(flow find-refs "$kak_buffile" "$kak_cursor_line" "$kak_cursor_column" | cut -d : -f 2- | tr ':' '.' | tr '\n' ':' | sed 's/.$//'; echo '')
+  if [ -n "$coords" ]; then
+    echo "select $coords; echo $coords"
+  else
+    echo nop
+  fi
+}}

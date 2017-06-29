@@ -16,6 +16,7 @@ It provides the following commands:
 - `flow-jump-to-definition`: jump to definition of the name under cursor (using `flow get-def`)
 - `flow-coverage`: display the current file coverage in info and highlight missing coverage (using `flow coverage`)
 - `flow-coverage-disable`: remove coverage highlighter
+- `flow-select-references`: select references of the name under cursor (using `flow find-refs`)
 
 ## See also
 
