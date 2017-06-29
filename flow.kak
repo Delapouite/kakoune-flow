@@ -25,7 +25,12 @@ def flow-coverage -docstring 'display the current file coverage in info and high
           | join("|Error:")' \
       | tr -d '"'
     )
-    echo "set window flow_coverage '$kak_timestamp:$coords|Error';info -title 'flow-coverage' '$percentage'"
+    echo "info -title 'flow-coverage' '$percentage';"
+    if [ -n "$coords" ]; then
+      echo "set window flow_coverage '$kak_timestamp:$coords|Error';"
+    else
+      echo "flow-coverage-disable"
+    fi
   }
 }
 
