@@ -16,14 +16,13 @@ def flow-coverage -docstring 'display the current file coverage in info and high
     percentage=$(flow coverage "$kak_buffile" | head -n 1)
     coords=$(
       flow coverage "$kak_buffile" --json \
-      | jq '.expressions.uncovered_locs
+      | jq --raw-output '.expressions.uncovered_locs
           | map( [
               [ [ (.start.line|tostring), (.start.column|tostring)] | join(".") ],
               [ (.end.line|tostring), (.end.column|tostring)] | join(".")
             ]
             | join(",") )
           | join("|Error:")' \
-      | tr -d '"'
     )
     echo "info -title 'flow-coverage' '$percentage';"
     if [ -n "$coords" ]; then
