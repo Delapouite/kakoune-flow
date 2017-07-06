@@ -2,7 +2,7 @@ decl range-specs flow_coverage
 
 def flow-get-type -docstring 'display the type of the name under cursor in info' %{ %sh{
   type=$(flow type-at-pos "$kak_buffile" $kak_cursor_line $kak_cursor_column | head -n 1)
-  echo "info -title 'flow-get-type' '$type'"
+  echo "info -title flow-get-type %^$type^"
 }}
 
 def flow-jump-to-definition -docstring 'jump to definition of the name under cursor' %{ %sh{
@@ -24,7 +24,7 @@ def flow-coverage -docstring 'display the current file coverage in info and high
             | join(",") )
           | join("|Error:")' \
     )
-    echo "info -title 'flow-coverage' '$percentage';"
+    echo "info -title flow-coverage '$percentage'"
     if [ -n "$coords" ]; then
       echo "set window flow_coverage '$kak_timestamp:$coords|Error';"
     else
