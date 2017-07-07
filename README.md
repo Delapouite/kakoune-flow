@@ -18,6 +18,10 @@ It provides the following commands:
 - `flow-coverage-disable`: remove coverage highlighter
 - `flow-select-references`: select references of the name under cursor (using `flow find-refs`)
 
+Hidden utility commands:
+
+- `flow-get-type-toggle`: enable/disable auto flow-get-type on NormalIdle
+
 ## See also
 
 - [vim-flow](https://github.com/flowtype/vim-flow)
