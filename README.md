@@ -27,6 +27,7 @@ Hidden utility commands:
 - [vim-flow](https://github.com/flowtype/vim-flow)
 - [eslint-formatter-kakoune](https://github.com/Delapouite/eslint-formatter-kakoune)
 - [kakoune-ecmascript](https://github.com/Delapouite/kakoune-ecmascript)
+- [kakoune-typescript](https://github.com/atomrc/kakoune-typescript)
 
 ## Licence
 
