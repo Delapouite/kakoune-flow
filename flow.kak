@@ -8,7 +8,7 @@ def flow-get-type -docstring 'display the type of the name under cursor in info'
 
 decl -hidden bool flow_get_type_enabled false
 
-def flow-get-type-toggle -hidden -docstring 'enable/disable auto flow-get-type on NormalIdle' %{ %sh{
+def flow-get-type-toggle -hidden -docstring 'enable/disable flow-get-type on NormalIdle' %{ %sh{
   if [ $kak_opt_flow_get_type_enabled = true ]; then
     echo 'set window flow_get_type_enabled false'
     echo 'rmhooks window flow_get_type'
@@ -27,27 +27,42 @@ def flow-jump-to-definition -docstring 'jump to definition of the name under cur
 
 decl -hidden range-specs flow_coverage
 
+def -hidden flow-coverage-percentage -docstring 'display the current file coverage in percentage' %{
+  info 'querying flow server…'
+  # flow server takes more than 5secs to load
+  %sh{
+    {
+      percentage=$(flow coverage "$kak_buffile" | head -n 1)
+      cmd="info -title flow-coverage '$percentage'"
+      printf '%s\n' "eval -client $kak_client %< $cmd >" | kak -p "$kak_session"
+    } < /dev/null > /dev/null 2>&1 &
+  }
+}
+
 def flow-coverage -docstring 'display the current file coverage in info and highlight missing coverage' %{
+  flow-coverage-percentage
+
   try %{ addhl ranges flow_coverage }
   %sh{
-    percentage=$(flow coverage "$kak_buffile" | head -n 1)
-    # --raw-output removes the surrounding dquotes
-    coords=$(
-      flow coverage "$kak_buffile" --json \
-      | jq --raw-output '.expressions.uncovered_locs
-          | map( [
-              [ [ (.start.line|tostring), (.start.column|tostring)] | join(".") ],
-              [ (.end.line|tostring), (.end.column|tostring)] | join(".")
-            ]
-            | join(",") )
-          | join("|Error:")' \
-    )
-    echo "info -title flow-coverage '$percentage'"
-    if [ -n "$coords" ]; then
-      echo "set window flow_coverage '$kak_timestamp:$coords|Error';"
-    else
-      echo "flow-coverage-disable"
-    fi
+    {
+      # --raw-output removes the surrounding dquotes
+      coords=$(
+        flow coverage "$kak_buffile" --json \
+        | jq --raw-output '.expressions.uncovered_locs
+            | map( [
+                [ [ (.start.line|tostring), (.start.column|tostring)] | join(".") ],
+                [ (.end.line|tostring), (.end.column|tostring)] | join(".")
+              ]
+              | join(",") )
+            | join("|Error:")' \
+      )
+      if [ -n "$coords" ]; then
+        cmd="set window flow_coverage '$kak_timestamp:$coords|Error';"
+      else
+        cmd="flow-coverage-disable"
+      fi
+      printf '%s\n' "eval -client $kak_client %< $cmd >" | kak -p "$kak_session"
+    } < /dev/null > /dev/null 2>&1 &
   }
 }
 
