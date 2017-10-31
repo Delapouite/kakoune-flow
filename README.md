@@ -18,6 +18,10 @@ It provides the following commands:
 - `flow-coverage-disable`: remove coverage highlighter
 - `flow-select-references`: select references of the name under cursor (using `flow find-refs`)
 
+Available options:
+
+- `flow_coverage_percentage`: store the result of previous `flow-coverage` command.
+
 Hidden utility commands:
 
 - `flow-get-type-toggle`: enable/disable auto flow-get-type on NormalIdle

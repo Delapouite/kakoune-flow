@@ -25,6 +25,7 @@ def flow-jump-to-definition -docstring 'jump to definition of the name under cur
 
 # coverage
 
+decl -hidden str flow_coverage_percentage
 decl -hidden range-specs flow_coverage
 
 def -hidden flow-coverage-percentage -docstring 'display the current file coverage in percentage' %{
@@ -33,7 +34,7 @@ def -hidden flow-coverage-percentage -docstring 'display the current file covera
   %sh{
     {
       percentage=$(flow coverage "$kak_buffile" | head -n 1)
-      cmd="info -title flow-coverage '$percentage'"
+      cmd="set buffer flow_coverage_percentage '$percentage'; info -title flow-coverage '$percentage'"
       printf '%s\n' "eval -client $kak_client %< $cmd >" | kak -p "$kak_session"
     } < /dev/null > /dev/null 2>&1 &
   }
