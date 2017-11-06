@@ -1,14 +1,14 @@
 # get type
 
-def flow-get-type -docstring 'display the type of the name under cursor in info' %{ %sh{
+define-command flow-get-type -docstring 'display the type of the name under cursor in info' %{ %sh{
   type=$(flow type-at-pos "$kak_buffile" $kak_cursor_line $kak_cursor_column | head -n 1)
   anchor=$kak_cursor_line.$kak_cursor_column
   echo "info -title flow-get-type -anchor $anchor %^flow: $type^"
 }}
 
-decl -hidden bool flow_get_type_enabled false
+declare-option -hidden bool flow_get_type_enabled false
 
-def flow-get-type-toggle -hidden -docstring 'enable/disable flow-get-type on NormalIdle' %{ %sh{
+define-command flow-get-type-toggle -hidden -docstring 'enable/disable flow-get-type on NormalIdle' %{ %sh{
   if [ $kak_opt_flow_get_type_enabled = true ]; then
     echo 'set window flow_get_type_enabled false'
     echo 'rmhooks window flow_get_type'
@@ -18,17 +18,17 @@ def flow-get-type-toggle -hidden -docstring 'enable/disable flow-get-type on Nor
   fi
 }}
 
-def flow-jump-to-definition -docstring 'jump to definition of the name under cursor' %{ %sh{
+define-command flow-jump-to-definition -docstring 'jump to definition of the name under cursor' %{ %sh{
   location=$(flow get-def "$kak_buffile" $kak_cursor_line $kak_cursor_column | cut -d , -f 1 | tr ':' ' ')
   echo "edit $location"
 }}
 
 # coverage
 
-decl -hidden str flow_coverage_percentage
-decl -hidden range-specs flow_coverage
+declare-option -hidden str flow_coverage_percentage
+declare-option -hidden range-specs flow_coverage
 
-def -hidden flow-coverage-percentage -docstring 'display the current file coverage in percentage' %{
+define-command -hidden flow-coverage-percentage -docstring 'display the current file coverage in percentage' %{
   info 'querying flow server…'
   # flow server takes more than 5secs to load
   %sh{
@@ -40,10 +40,10 @@ def -hidden flow-coverage-percentage -docstring 'display the current file covera
   }
 }
 
-def flow-coverage -docstring 'display the current file coverage in info and highlight missing coverage' %{
+define-command flow-coverage -docstring 'display the current file coverage in info and highlight missing coverage' %{
   flow-coverage-percentage
 
-  try %{ addhl ranges flow_coverage }
+  try %{ add-highlighter window ranges flow_coverage }
   %sh{
     {
       # --raw-output removes the surrounding dquotes
@@ -67,11 +67,11 @@ def flow-coverage -docstring 'display the current file coverage in info and high
   }
 }
 
-def flow-coverage-disable -docstring 'remove coverage highlighter' %{ rmhl hlranges_flow_coverage }
+define-command flow-coverage-disable -docstring 'remove coverage highlighter' %{ rmhl window/hlranges_flow_coverage }
 
 # references
 
-def flow-select-references -docstring 'select references of the name under cursor' %{ %sh{
+define-command flow-select-references -docstring 'select references of the name under cursor' %{ %sh{
   coords=$(flow find-refs "$kak_buffile" "$kak_cursor_line" "$kak_cursor_column" | cut -d : -f 2- | tr ':' '.' | tr '\n' ':' | sed 's/.$//'; echo '')
   if [ -n "$coords" ]; then
     echo "select $coords; echo $coords"
