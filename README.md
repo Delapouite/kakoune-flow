@@ -33,6 +33,7 @@ Hidden utility commands:
 - [eslint-formatter-kakoune](https://github.com/Delapouite/eslint-formatter-kakoune)
 - [kakoune-ecmascript](https://github.com/Delapouite/kakoune-ecmascript)
 - [kakoune-typescript](https://github.com/atomrc/kakoune-typescript)
+- [kak-lsp](https://github.com/ul/kak-lsp)
 
 ## Licence
 
